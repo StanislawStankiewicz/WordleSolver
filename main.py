@@ -34,6 +34,7 @@ words_rating.sort(key=lambda pair: pair[1], reverse=True)
 response = requests.post(GUESS_URL,
                          json={"guess": words_rating[0][0]},
                          headers={"Content-Type": "application/json"}).json()
+print("Sending guess:", words_rating[0][0])
 
 while response['result'] == "incorrect":
     words_rating = list(filter(lambda word: filter_word(word[0], response["letter_info"]), words_rating))
