@@ -7,6 +7,8 @@ def filter_word(word, letter_info):
         letter = word[i]
         guess_letter = letter_info[i]['letter']
         status = letter_info[i]['status']
+        if letter == guess_letter and status == 'present':
+            return False
         if status == 'incorrect' and guess_letter in word:
             return False
         if status in ['present', 'correct'] and guess_letter not in word:
@@ -37,6 +39,7 @@ response = requests.post(GUESS_URL,
 print("Sending guess:", words_rating[0][0])
 
 while response['result'] == "incorrect":
+    print(words_rating)
     words_rating = list(filter(lambda word: filter_word(word[0], response["letter_info"]), words_rating))
     print("Sending guess:", words_rating[0][0])
     response = requests.post(GUESS_URL,
